@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  model: MyString
+  year: 1
+  top_speed: 1
+  description: MyText
+  cc: 1
+  engine: 9.99
+  mileage: 1
+  price: 1
+  reserved: false
+
+two:
+  model: MyString
+  year: 1
+  top_speed: 1
+  description: MyText
+  cc: 1
+  engine: 9.99
+  mileage: 1
+  price: 1
+  reserved: false

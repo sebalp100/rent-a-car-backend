@@ -10,9 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_20_223358) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_22_213329) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "brands", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cars", force: :cascade do |t|
+    t.string "model"
+    t.integer "year"
+    t.integer "top_speed"
+    t.text "description"
+    t.integer "cc"
+    t.decimal "engine"
+    t.integer "mileage"
+    t.integer "price"
+    t.boolean "reserved", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "featured"
+    t.bigint "brand_id", null: false
+    t.index ["brand_id"], name: "index_cars_on_brand_id"
+  end
+
+  create_table "rentals", force: :cascade do |t|
+    t.bigint "car_id", null: false
+    t.bigint "user_id", null: false
+    t.date "rental_date", default: -> { "CURRENT_DATE" }, null: false
+    t.date "return_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_rentals_on_car_id"
+    t.index ["user_id"], name: "index_rentals_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -24,10 +58,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_20_223358) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.string "jti", null: false
-    t.string "role", default: "client"
+    t.string "role"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "cars", "brands"
+  add_foreign_key "rentals", "cars"
+  add_foreign_key "rentals", "users"
 end
