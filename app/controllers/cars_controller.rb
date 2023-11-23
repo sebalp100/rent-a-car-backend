@@ -1,6 +1,7 @@
 class CarsController < ApplicationController
   before_action :set_car, only: %i[ show update destroy ]
   before_action :authenticate_user!, except: %i[index show]
+  load_and_authorize_resource
 
   # GET /cars
   def index
@@ -27,14 +28,10 @@ class CarsController < ApplicationController
 
   # PATCH/PUT /cars/1
   def update
-    if @car.update(car_params)
-      render json: @car
-    else
-      render json: @car.errors, status: :unprocessable_entity
-    end
+    @car.update!(car_params)
+    render json: @car
   end
-
-  # DELETE /cars/1
+  
   def destroy
     @car.destroy
   end
