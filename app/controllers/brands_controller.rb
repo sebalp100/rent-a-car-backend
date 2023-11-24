@@ -1,6 +1,7 @@
 class BrandsController < ApplicationController
   before_action :set_brand, only: %i[ show update destroy ]
   before_action :authenticate_user!, except: %i[index show]
+  load_and_authorize_resource
 
   # GET /brands
   def index

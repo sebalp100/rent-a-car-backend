@@ -7,11 +7,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   private
 
+  def avatar_url(user)
+    Rails.application.routes.url_helpers.rails_blob_path(user.avatar, only_path: true) if user.avatar.attached?
+  end
+
   def respond_with(resource, _opts = {})
     if request.method == "POST" && resource.persisted?
+      user_data = UserSerializer.new(resource).serializable_hash[:data][:attributes]
+      user_data[:avatar_url] = avatar_url(resource)
+      
       render json: {
-        status: { code: 200, message: "Signed up sucessfully." },
-        data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
+        status: { code: 200, message: "Signed up successfully." },
+        data: user_data
       }, status: :ok
     elsif request.method == "DELETE"
       render json: {

@@ -9,4 +9,5 @@ class User < ApplicationRecord
   ROLES = %i[admin client]
 
   has_many :rentals, dependent: :destroy
+  has_one_attached :avatar
 end
