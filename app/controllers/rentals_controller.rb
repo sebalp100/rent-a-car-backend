@@ -1,5 +1,5 @@
 class RentalsController < ApplicationController
-  before_action :set_rental, only: %i[ show update destroy ]
+  before_action :set_rental, only: %i[show update destroy]
   load_and_authorize_resource
 
   # GET /rentals
@@ -11,7 +11,7 @@ class RentalsController < ApplicationController
   # GET /rentals/1
   def show
     @rental = Rental.find_by(id: params[:id])
-  
+
     if @rental
       render json: @rental
     else
@@ -22,7 +22,7 @@ class RentalsController < ApplicationController
   # POST /rentals
   def create
     @rental = current_user.rentals.build(rental_params)
-  
+
     if @rental.save
       render json: @rental, status: :created, location: @rental
     else
@@ -45,17 +45,18 @@ class RentalsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_rental
-      @rental = current_user.rentals.find_by(id: params[:id])
-      
-      if @rental.nil?
-        render json: { error: "Record not found" }, status: :not_found
-      end
-    end
 
-    # Only allow a list of trusted parameters through.
-    def rental_params
-      params.fetch(:rental, {})
+  # Use callbacks to share common setup or constraints between actions.
+  def set_rental
+    @rental = current_user.rentals.find_by(id: params[:id])
+
+    if @rental.nil?
+      render json: { error: "Record not found" }, status: :not_found
     end
+  end
+
+  # Only allow a list of trusted parameters through.
+  def rental_params
+    params.fetch(:rental, {})
+  end
 end

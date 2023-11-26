@@ -2,7 +2,7 @@
 
 class Users::RegistrationsController < Devise::RegistrationsController
   include RackSessionFix
-  
+
   respond_to :json
 
   private
@@ -15,7 +15,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if request.method == "POST" && resource.persisted?
       user_data = UserSerializer.new(resource).serializable_hash[:data][:attributes]
       user_data[:avatar_url] = avatar_url(resource)
-      
+
       render json: {
         status: { code: 200, message: "Signed up successfully." },
         data: user_data

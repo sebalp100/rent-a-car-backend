@@ -12,7 +12,7 @@ class RentalsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create rental" do
     assert_difference("Rental.count") do
-      post rentals_url, params: { rental: {  } }, as: :json
+      post rentals_url, params: { rental: {} }, as: :json
     end
 
     assert_response :created
@@ -24,7 +24,7 @@ class RentalsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update rental" do
-    patch rental_url(@rental), params: { rental: {  } }, as: :json
+    patch rental_url(@rental), params: { rental: {} }, as: :json
     assert_response :success
   end
 

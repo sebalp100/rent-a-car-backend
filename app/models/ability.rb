@@ -7,12 +7,13 @@ class Ability
     user ||= User.new # guest user (not logged in)
 
     if user.role == "admin"
-        can :manage, :all
+      can :manage, :all
     elsif user.role == "client"
-        can :read, :all
-        can [:create, :destroy, :update], Rental
+      can :read, :all
+      can [:create, :destroy, :update], Rental
     else
-        can :read, Car
+      can :read, Car
+      can :read, Brand
     end
   end
 end

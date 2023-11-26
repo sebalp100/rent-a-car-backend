@@ -2,7 +2,7 @@
 
 class Users::SessionsController < Devise::SessionsController
   include RackSessionFix
-  
+
   respond_to :json
 
   private
@@ -14,7 +14,7 @@ class Users::SessionsController < Devise::SessionsController
   def respond_with(resource, _opts = {})
     user_data = UserSerializer.new(resource).serializable_hash[:data][:attributes]
     user_data[:avatar_url] = avatar_url(resource)
-    
+
     render json: {
       status: { code: 200, message: 'Logged in successfully.' },
       data: user_data

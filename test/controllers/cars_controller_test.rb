@@ -12,7 +12,8 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create car" do
     assert_difference("Car.count") do
-      post cars_url, params: { car: { cc: @car.cc, description: @car.description, engine: @car.engine, mileage: @car.mileage, model: @car.model, price: @car.price, reserved: @car.reserved, top_speed: @car.top_speed, year: @car.year } }, as: :json
+      post cars_url,
+           params: { car: { cc: @car.cc, description: @car.description, engine: @car.engine, mileage: @car.mileage, model: @car.model, price: @car.price, reserved: @car.reserved, top_speed: @car.top_speed, year: @car.year } }, as: :json
     end
 
     assert_response :created
@@ -24,7 +25,8 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update car" do
-    patch car_url(@car), params: { car: { cc: @car.cc, description: @car.description, engine: @car.engine, mileage: @car.mileage, model: @car.model, price: @car.price, reserved: @car.reserved, top_speed: @car.top_speed, year: @car.year } }, as: :json
+    patch car_url(@car),
+          params: { car: { cc: @car.cc, description: @car.description, engine: @car.engine, mileage: @car.mileage, model: @car.model, price: @car.price, reserved: @car.reserved, top_speed: @car.top_speed, year: @car.year } }, as: :json
     assert_response :success
   end
 
