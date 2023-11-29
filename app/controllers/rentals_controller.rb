@@ -58,6 +58,6 @@ class RentalsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def rental_params
-    params.require(:car).permit(:car_id, :user_id, :rental_date, :return_date)
+    params.require(:rental).permit(:car_id, :user_id, :rental_date, :return_date)
   end
 end

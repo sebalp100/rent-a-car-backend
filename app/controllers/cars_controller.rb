@@ -8,13 +8,15 @@ class CarsController < ApplicationController
     if params[:featured] == 'true'
       @cars = Car.where(featured: true)
     elsif params[:brand_id].present?
-      @cars = Car.includes(:brand).where(brand_id: params[:brand_id])
+      @cars = Car.where(brand_id: params[:brand_id])
     elsif params[:model].present? || params[:year].present?
-      @cars = Car.includes(:brand).where('model ILIKE ? OR year ILIKE ?', "%#{params[:model]}%", "%#{params[:year]}%")
+      @cars = Car.where('model ILIKE ? OR year ILIKE ?', "%#{params[:model]}%", "%#{params[:year]}%")
+    elsif params[:reserved] == 'false'
+      @cars = Car.where(reserved: false)
     else
-      @cars = Car.includes(:brand).all
+      @cars = Car.all
     end
-
+  
     render json: @cars.map { |car| car_with_photo_url(car) }
   end
 
