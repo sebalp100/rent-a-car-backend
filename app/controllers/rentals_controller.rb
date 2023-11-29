@@ -4,8 +4,9 @@ class RentalsController < ApplicationController
 
   # GET /rentals
   def index
-    @rentals = current_user.rentals
-    render json: @rentals
+    @rentals = current_user.rentals.includes(:car)
+
+    render json: @rentals.as_json(include: { car: { only: [:model, :year, :price] } })
   end
 
   # GET /rentals/1
@@ -57,6 +58,6 @@ class RentalsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def rental_params
-    params.fetch(:rental, {})
+    params.require(:car).permit(:car_id, :user_id, :rental_date, :return_date)
   end
 end

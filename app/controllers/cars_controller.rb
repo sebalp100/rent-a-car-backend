@@ -7,8 +7,12 @@ class CarsController < ApplicationController
   def index
     if params[:featured] == 'true'
       @cars = Car.where(featured: true)
+    elsif params[:brand_id].present?
+      @cars = Car.includes(:brand).where(brand_id: params[:brand_id])
+    elsif params[:model].present? || params[:year].present?
+      @cars = Car.includes(:brand).where('model ILIKE ? OR year ILIKE ?', "%#{params[:model]}%", "%#{params[:year]}%")
     else
-      @cars = Car.all
+      @cars = Car.includes(:brand).all
     end
 
     render json: @cars.map { |car| car_with_photo_url(car) }
