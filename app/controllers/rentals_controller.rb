@@ -5,6 +5,7 @@ class RentalsController < ApplicationController
   # GET /rentals
   def index
     @rentals = current_user.rentals.includes(:car)
+    @rentals.each(&:calculate_status)
 
     render json: @rentals.as_json(include: { car: { only: [:model, :year, :price] } })
   end
@@ -34,7 +35,10 @@ class RentalsController < ApplicationController
   # PATCH/PUT /rentals/1
   def update
     if @rental.update(rental_params)
-      render json: @rental
+      if rental_params[:status] == 'canceled'
+        @rental.car.update(reserved: false)
+      end
+    render json: @rental
     else
       render json: @rental.errors, status: :unprocessable_entity
     end
@@ -58,6 +62,6 @@ class RentalsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def rental_params
-    params.require(:rental).permit(:car_id, :user_id, :rental_date, :return_date)
+    params.require(:rental).permit(:car_id, :user_id, :rental_date, :return_date, :status)
   end
 end
