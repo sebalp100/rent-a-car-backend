@@ -16,7 +16,7 @@ class CarsController < ApplicationController
     else
       @cars = Car.all
     end
-  
+
     render json: @cars.map { |car| car_with_photo_url(car) }
   end
 
