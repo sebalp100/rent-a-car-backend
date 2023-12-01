@@ -28,7 +28,7 @@ class RentalsController < ApplicationController
     if @rental.save
       render json: @rental, status: :created, location: @rental
     else
-      render json: @rental.errors, status: :unprocessable_entity
+      render json: { message: @rental.errors.full_messages.join(', ') }, status: :unprocessable_entity
     end
   end
 
@@ -38,7 +38,7 @@ class RentalsController < ApplicationController
       if rental_params[:status] == 'canceled'
         @rental.car.update(reserved: false)
       end
-    render json: @rental
+      render json: @rental
     else
       render json: @rental.errors, status: :unprocessable_entity
     end
