@@ -16,7 +16,8 @@ class Rental < ApplicationRecord
 
   def return_date_after_rental_date
     if rental_date.present? && return_date.present?
-      errors.add(:return_date, message: "must be at least 1 day after rental date") if return_date <= rental_date + 1.day
+      errors.add(:return_date,
+                 message: "must be at least 1 day after rental date") if return_date <= rental_date + 1.day
       errors.add(:return_date, message: "can't be lower than rental date") if return_date < rental_date
     end
   end
