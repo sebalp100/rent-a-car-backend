@@ -13,13 +13,13 @@ Rails.application.routes.draw do
                        sessions: 'users/sessions',
                        registrations: 'users/registrations'
                      }
-                     devise_scope :user do
-                      namespace :users do
-                        resource :sessions, only: [] do
-                          member do
-                            get 'notifications'
-                          end
-                        end
-                      end
-                    end
+  devise_scope :user do
+    namespace :users do
+      resource :sessions, only: [] do
+        member do
+          get 'notifications'
+        end
+      end
+    end
+  end
 end

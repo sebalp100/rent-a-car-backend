@@ -18,7 +18,7 @@ class Users::SessionsController < Devise::SessionsController
   def format_notification(notification)
     rental_info = notification.params[:params][:rental]
     car_info = Car.find(rental_info[:car_id])
-  
+
     {
       id: notification.id,
       recipient_type: notification.recipient_type,

@@ -10,7 +10,7 @@ class RentalsController < ApplicationController
       @rentals = current_user.rentals.includes(:car)
       @rentals.each(&:calculate_status)
     end
-  
+
     render json: @rentals.as_json(include: { car: { only: [:model, :year, :price] } })
   end
 

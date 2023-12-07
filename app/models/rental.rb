@@ -46,10 +46,11 @@ class Rental < ApplicationRecord
 
   def check_date_availability
     overlapping_rental = Rental
-      .where("car_id = ?", car_id)
-      .where("rental_date <= ? AND return_date >= ?", return_date, rental_date)
-      .first
-  
+                         .where("car_id = ?", car_id)
+                         .where("rental_date <= ? AND return_date >= ?", return_date, rental_date)
+                         .where.not(status: "canceled")
+                         .first
+
     if overlapping_rental.present?
       errors.add(:message, "Car is not available for these dates")
     end
