@@ -7,8 +7,6 @@ class Rental < ApplicationRecord
   enum status: { pending: 'pending', in_progress: 'in_progress', canceled: 'canceled', completed: 'completed',
                  unknown: 'unknown' }
 
-  after_create :update_car_reserved_status
-
   validate :rental_date_cannot_be_in_the_past
   validate :return_date_after_rental_date
 
