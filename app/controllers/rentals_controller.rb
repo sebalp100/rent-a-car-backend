@@ -4,7 +4,7 @@ class RentalsController < ApplicationController
 
   # GET /rentals
   def index
-    if current_user.admin?
+    if current_user.role == "admin"
       @rentals = Rental.includes(:car).all
     else
       @rentals = current_user.rentals.includes(:car)
