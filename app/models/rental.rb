@@ -1,6 +1,8 @@
 class Rental < ApplicationRecord
   belongs_to :car
   belongs_to :user
+  has_noticed_notifications model_name: "Notification"
+  has_many :notifications, through: :user, dependent: :destroy
 
   enum status: { pending: 'pending', in_progress: 'in_progress', canceled: 'canceled', completed: 'completed',
                  unknown: 'unknown' }
@@ -9,6 +11,8 @@ class Rental < ApplicationRecord
 
   validate :rental_date_cannot_be_in_the_past
   validate :return_date_after_rental_date
+
+  validate :check_date_availability, on: :create
 
   def rental_date_cannot_be_in_the_past
     errors.add(:rental_date, message: "can't be in the past") if rental_date.present? && rental_date < Date.current
@@ -41,6 +45,14 @@ class Rental < ApplicationRecord
   end
 
   private
+
+  def check_date_availability
+    overlapping_rental = Rental.where("rental_date <= ? AND return_date >= ?", return_date, rental_date).first
+
+    if overlapping_rental.present?
+      errors.add(:message, "Car is not available for these dates")
+    end
+  end
 
   def update_car_reserved_status
     car.update(reserved: true) if car.present?

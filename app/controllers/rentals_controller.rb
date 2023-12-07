@@ -4,9 +4,13 @@ class RentalsController < ApplicationController
 
   # GET /rentals
   def index
-    @rentals = current_user.rentals.includes(:car)
-    @rentals.each(&:calculate_status)
-
+    if current_user.admin?
+      @rentals = Rental.includes(:car).all
+    else
+      @rentals = current_user.rentals.includes(:car)
+      @rentals.each(&:calculate_status)
+    end
+  
     render json: @rentals.as_json(include: { car: { only: [:model, :year, :price] } })
   end
 
@@ -26,6 +30,8 @@ class RentalsController < ApplicationController
     @rental = current_user.rentals.build(rental_params)
 
     if @rental.save
+      RentalNotification.with(params: { rental: @rental }).deliver_later(current_user)
+
       render json: @rental, status: :created, location: @rental
     else
       render json: { message: @rental.errors.full_messages.join(', ') }, status: :unprocessable_entity

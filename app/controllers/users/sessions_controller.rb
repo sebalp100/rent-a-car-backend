@@ -5,7 +5,45 @@ class Users::SessionsController < Devise::SessionsController
 
   respond_to :json
 
+  def notifications
+    user_notifications = current_user.notifications
+    formatted_notifications = user_notifications.map { |notification| format_notification(notification) }
+
+    render json: formatted_notifications
+  end
+
+
   private
+
+  def format_notification(notification)
+    rental_info = notification.params[:params][:rental]
+    car_info = Car.find(rental_info[:car_id])
+  
+    {
+      id: notification.id,
+      recipient_type: notification.recipient_type,
+      recipient_id: notification.recipient_id,
+      type: notification.type,
+      message: {
+        id: rental_info[:id],
+        car_id: rental_info[:car_id],
+        user_id: rental_info[:user_id],
+        rental_date: rental_info[:rental_date],
+        return_date: rental_info[:return_date],
+        created_at: rental_info[:created_at],
+        updated_at: rental_info[:updated_at],
+        status: rental_info[:status],
+        car: {
+          model: car_info.model,
+          year: car_info.year,
+          price: car_info.price
+        }
+      },
+      read_at: notification.read_at,
+      created_at: notification.created_at,
+      updated_at: notification.updated_at
+    }
+  end
 
   def avatar_url(user)
     Rails.application.routes.url_helpers.rails_blob_path(user.avatar, only_path: true) if user.avatar.attached?

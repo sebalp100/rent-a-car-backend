@@ -61,3 +61,5 @@ group :development do
 end
 
 gem "bullet", "~> 7.1"
+
+gem "noticed", "~> 1.6"
