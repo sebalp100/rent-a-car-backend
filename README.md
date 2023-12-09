@@ -33,7 +33,7 @@
 
 # 📖 Rent A Car Backend<a name="about-project"></a>
 
-This is a car rentals app that allows users to rent different cars. This is the backend repo.
+This is a car rental app that allows users to rent different cars. This is the backend repo.
 
 
 ## 🛠 Built With <a name="built-with"></a>
@@ -90,7 +90,7 @@ This is a car rentals app that allows users to rent different cars. This is the 
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-Not available yet
+https://rent-a-car-frontend-sebalp100.vercel.app/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -102,7 +102,7 @@ To get a local copy up and running, follow these steps.
 
 ### Prerequisites
 
-In order to run this project you need:
+To run this project you need:
 
 - Ruby
 - Ruby terminal
@@ -116,6 +116,8 @@ Clone this repository to your desired folder:
 cd my-folder
 git clone https://github.com/sebalp100/hotel-bookings-backend
 
+You can find the front-end repo here:
+https://github.com/sebalp100/rent-a-car-frontend
 
 ### Usage
 
